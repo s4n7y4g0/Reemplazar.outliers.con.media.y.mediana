@@ -1,0 +1,14 @@
+impute_outliers <- function(x, removeNA = TRUE){ ##se seleccionan las columnas a modificar 
+  quantiles <- quantile(x, c(0.05, 0.95), na.rm = removeNA) ##se seleccionan los percentiles que se van a reemplazar  ## c(vector
+  x[x<quantiles[1]] <- mean(x, na.rm = removeNA)  ## promedio para el percentil 1 al 5 
+  x[x>quantiles[2]] <- median(x, na.rm = removeNA) ## mediana para el percentil 95 a 100
+  x                                                 ## se indica de nuevo el vector con las variables
+}
+
+imputed_data <- impute_outliers(ozone.data$pressure_height) ## se hace el reemplazo de los datos
+
+par(mfrow = c(1,2))                                         ## se modifica el area de reficos para presentar 2 grafico, uno al lado del otro
+
+boxplot(ozone.data$pressure_height, main = "PresiÃ³n con outliers")   ## grafico con outlier
+boxplot(imputed_data, main = "PresiÃ³n sin outliers")                 ## grafico sin outliers
+
